@@ -5,7 +5,10 @@ import { definePlugin } from 'emdash';
 const ID = 'podglad';
 const VERSION = '0.1.0';
 const ADMIN_ENTRY = '@kacper/emdash-podglad/admin';
-const ADMIN_PAGES = [{ path: '/', label: 'Podgląd strony', icon: 'eye', group: 'Strona główna' }];
+const LABEL = 'Podgląd strony / edycja live';
+const ADMIN_PAGES = [{ path: '/', label: LABEL, icon: 'eye', group: 'Strona główna' }];
+// Uwaga: EmDash zawsze stawia strony wtyczek pod kolekcjami w grupie. Na górę przenosi się je
+// ręcznie: ikona ołówka na dole menu („Dostosuj pasek boczny”) – układ zapisuje się na koncie.
 
 /** Deskryptor do astro.config.mjs → emdash({ plugins: [podglad()] }) */
 export function podglad() {

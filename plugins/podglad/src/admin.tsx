@@ -163,7 +163,7 @@ function PreviewPage() {
     <section style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ ...ui.bar, justifyContent: 'space-between' }}>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 600, margin: 0 }}>Podgląd strony</h1>
+          <h1 style={{ fontSize: 24, fontWeight: 600, margin: 0 }}>Podgląd strony / edycja live</h1>
           <p style={ui.muted}>
             {draft
               ? 'Szkic: widać zapisane, jeszcze nieopublikowane zmiany. Włącz „Tryb edycji” na pasku w podglądzie, żeby klikać i poprawiać teksty.'
@@ -230,7 +230,7 @@ export const pages = { '/': PreviewPage };
 export const contentEditorPanels = [
   {
     id: 'podglad-sekcji',
-    title: 'Podgląd na stronie',
+    title: 'Podgląd / edycja live',
     component: PreviewPanel,
     collections: Object.keys(SECTION),
     order: 1,
