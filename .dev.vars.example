@@ -1,2 +1,8 @@
-# Skopiuj do .dev.vars (nie commituj!) żeby testować wysyłkę formularza lokalnie.
+# Skopiuj do .dev.vars (nie commituj!) – zmienne do testów lokalnych.
+
+# Formularz kontaktowy (Resend)
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
+
+# Logowanie do panelu przez Google (Google Cloud Console → Credentials → OAuth client ID)
+EMDASH_OAUTH_GOOGLE_CLIENT_ID=xxxxxxxx.apps.googleusercontent.com
+EMDASH_OAUTH_GOOGLE_CLIENT_SECRET=GOCSPX-xxxxxxxx

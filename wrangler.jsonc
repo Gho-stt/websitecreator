@@ -13,6 +13,8 @@
   "durable_objects": { "bindings": [{ "name": "EMDASH_ROOMS", "class_name": "EmDashRoom" }] },
   "exports": { "EmDashRoom": { "type": "durable-object", "storage": "sqlite" } },
   "triggers": { "crons": ["* * * * *"] },
+  // Wysyłka maili z panelu (link logowania, zaproszenia). Nadawca musi być zweryfikowany w Cloudflare Email Sending.
+  "send_email": [{ "name": "EMAIL" }],
   // Jawne zmienne. Klucz RESEND_API_KEY ustaw jako sekret w panelu Cloudflare.
   "vars": {
     "CONTACT_TO": "kontakt@twojadomena.pl",

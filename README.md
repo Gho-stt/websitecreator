@@ -25,9 +25,8 @@ Panel: **http://localhost:4321/_emdash/admin** (po polsku). Model treści i teks
 Kolejność usług, kroków, pakietów i pytań ustala pole „Kolejność” (mniejsza liczba = wyżej).
 
 ### Pierwsze uruchomienie lokalnie
-1. `npm run dev`
-2. Otwórz http://localhost:4321/_emdash/api/setup/dev-bypass – tworzy lokalne konto administratora, bazę i wgrywa treści startowe (tylko w trybie dev).
-3. Panel: http://localhost:4321/_emdash/admin
+1. `npm run dev` i otwórz http://localhost:4321/_emdash/admin – kreator: tytuł, **Przykładowa treść** (to teksty Twojej strony z `seed/seed.json`), konto administratora (Google, gdy skonfigurowany, albo klucz dostępu).
+2. Szybciej, bez kreatora i logowania: http://localhost:4321/_emdash/api/setup/dev-bypass (konto testowe `dev@emdash.local`, tylko w trybie dev).
 
 ### Edycja na stronie (podgląd na żywo)
 1. Będąc zalogowanym w panelu, wejdź na stronę i kliknij **„Edytuj”** (przycisk w rogu).
@@ -40,8 +39,24 @@ Listę „Co zawiera” w pakietach, ikony usług, kolejność i logo zmienia si
 ### Jak działa szybkość
 Strony renderują się z bazy D1 i są cache'owane na krawędzi Cloudflare (`routeRules` w `astro.config.mjs`). EmDash czyści cache automatycznie po każdej publikacji, więc zmiany widać w kilka sekund, a odwiedzający dostają gotową stronę z cache.
 
-### Konta
-Panel → **Użytkownicy** → zaproś klienta z rolą redaktora. Logowanie kluczem dostępu (passkey: odcisk palca / Face ID / Windows Hello).
+### Logowanie
+Ekran logowania oferuje: **Google**, **link na e-mail** (jednorazowy, ważny 15 min) oraz klucz dostępu (passkey). Konta tworzy się tylko przez zaproszenie: panel → **Użytkownicy → Zaproś**, e-mail klienta i rola redaktora. Klient loguje się Google z tym samym adresem albo linkiem na e-mail. Obcy z kontem Google nie założą konta.
+
+Lokalnie (`npm run dev`) maile nie są wysyłane – link logowania pojawia się w terminalu (`📧 [dev-email]`).
+
+#### Google – jednorazowa konfiguracja (ok. 10 min)
+1. https://console.cloud.google.com → nowy projekt, np. `kacper-dev-panel`.
+2. **Google Auth Platform → Branding**: nazwa aplikacji (`kacper.dev – panel`), e-mail kontaktowy. **Audience**: *External*, potem **Publish app** (podstawowe uprawnienia e-mail/profil nie wymagają weryfikacji przez Google).
+3. **Clients → Create client → Web application**. *Authorized redirect URIs*:
+   - `http://localhost:4321/_emdash/api/auth/oauth/google/callback`
+   - `https://twojadomena.pl/_emdash/api/auth/oauth/google/callback`
+4. Skopiuj **Client ID** i **Client secret**:
+   - lokalnie: do `.dev.vars` (wzór w `.dev.vars.example`), restart `npm run dev`,
+   - na Cloudflare: **Settings → Variables and Secrets** → sekrety `EMDASH_OAUTH_GOOGLE_CLIENT_ID` i `EMDASH_OAUTH_GOOGLE_CLIENT_SECRET`.
+
+#### Link na e-mail na produkcji (Cloudflare Email Sending)
+1. Domena musi być w Cloudflare (DNS). Cloudflare → **Email → Email Sending** → dodaj domenę i zweryfikuj nadawcę `panel@twojadomena.pl` (adres ustawiony w `astro.config.mjs` → `cloudflareEmail`).
+2. Binding `EMAIL` jest już w `wrangler.jsonc`. Po wdrożeniu: panel → **Ustawienia → E-mail → Wyślij testowy e-mail**.
 
 ## Co uzupełnić przed publikacją
 
