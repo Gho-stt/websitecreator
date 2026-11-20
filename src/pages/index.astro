@@ -12,16 +12,18 @@ import { getContent } from '../lib/content';
 
 const content = await getContent();
 const { home, settings } = content;
+// Tagi cache: EmDash czyści stronę z cache po publikacji zmian w tych wpisach
+if (Astro.cache?.enabled) for (const hint of content.cacheHints) Astro.cache.set(hint as any);
 ---
 <Layout content={content}>
   <Header settings={settings} />
   <main id="main">
-    <Hero hero={home.hero} />
-    <Services services={home.services} />
-    <Process process={home.process} />
-    <Pricing pricing={home.pricing} />
-    <Faq faq={home.faq} />
-    <Contact contact={home.contact} packages={home.pricing.packages} settings={settings} />
+    <Hero hero={home.hero} edit={home.edit} />
+    <Services services={home.services} edit={home.edit} />
+    <Process process={home.process} edit={home.edit} />
+    <Pricing pricing={home.pricing} edit={home.edit} />
+    <Faq faq={home.faq} edit={home.edit} />
+    <Contact contact={home.contact} packages={home.pricing.packages} settings={settings} edit={home.edit} />
   </main>
   <Footer settings={settings} />
 </Layout>

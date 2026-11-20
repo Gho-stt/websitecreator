@@ -1,20 +1,21 @@
 ---
-import type { HomeContent } from '../data/site';
-interface Props { faq: HomeContent['faq'] }
-const { faq } = Astro.props;
+import type { Edit, HomeContent } from '../data/site';
+import { ed } from '../lib/content';
+interface Props { faq: HomeContent['faq']; edit?: Edit }
+const { faq, edit } = Astro.props;
 ---
 <section id="faq" class="border-t border-line">
   <div class="mx-auto max-w-[900px] px-6 py-24">
     <p class="eyebrow" data-reveal>04 / faq</p>
-    <h2 class="section-title mb-10" data-reveal style="--d: 80ms">{faq.title}</h2>
+    <h2 class="section-title mb-10" data-reveal style="--d: 80ms" {...ed(edit, 'faq_tytul')}>{faq.title}</h2>
     <div class="flex flex-col">
       {faq.items.map((item, i) => (
-        <details class="group border-b border-line" open={i === 0} data-reveal style={`--d: ${i * 80}ms`}>
+        <details class="group border-b border-line" open={i === 0} data-reveal style={`--d: ${i * 80}ms`} {...ed(item.edit)}>
           <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-6 py-6 text-[19px] font-bold text-ink transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
-            {item.q}
+            <span {...ed(item.edit, 'pytanie')}>{item.q}</span>
             <span class="shrink-0 font-mono text-xl text-accent transition-transform group-open:rotate-45" aria-hidden="true">+</span>
           </summary>
-          <p class="-mt-2 pb-6 whitespace-pre-line text-muted">{item.a}</p>
+          <p class="-mt-2 pb-6 whitespace-pre-line text-muted" {...ed(item.edit, 'odpowiedz')}>{item.a}</p>
         </details>
       ))}
     </div>

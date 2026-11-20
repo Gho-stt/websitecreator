@@ -1,37 +1,44 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
+import { cacheCloudflare } from '@astrojs/cloudflare/cache';
 import react from '@astrojs/react';
-import sanity from '@sanity/astro';
-import { sanityProject } from './sanity.project.mjs';
+import emdash from 'emdash/astro';
+import { d1, r2 } from '@emdash-cms/cloudflare';
 
-// Zmień na docelową domenę przed publikacją (używane w sitemap, canonical i OG).
+// Zmień na docelową domenę przed publikacją (canonical i OG).
 const SITE_URL = 'https://twojadomena.pl';
 
-// Panel /admin (Sanity Studio) włącza się dopiero po wpisaniu projectId w sanity.project.mjs
-const cms = sanityProject.projectId
-  ? [
-      sanity({
-        projectId: sanityProject.projectId,
-        dataset: sanityProject.dataset,
-        apiVersion: sanityProject.apiVersion,
-        useCdn: false,
-        studioBasePath: '/admin',
-      }),
-      react(),
-    ]
-  : [];
+// Strony renderowane na żądanie z treści w D1 i cache'owane na krawędzi Cloudflare.
+// EmDash czyści cache po każdej publikacji (tagi = nazwy kolekcji), więc zmiany są widoczne od razu.
+const cached = { maxAge: 86_400, swr: 604_800, tags: ['strona', 'uslugi', 'kroki', 'pakiety', 'faq', 'dane_firmy', 'emdash:settings', 'all'] };
 
 export default defineConfig({
   site: SITE_URL,
-  // Strony są statyczne; tylko /api/contact działa na żądanie (Cloudflare Worker).
-  output: 'static',
-  adapter: cloudflare({ imageService: 'compile' }),
-  session: false,
-  integrations: [...cms, sitemap({ filter: (page) => !page.includes('/admin') })],
+  output: 'server',
+  adapter: cloudflare(),
+  cache: { provider: cacheCloudflare() },
+  routeRules: {
+    '/': cached,
+    '/polityka-prywatnosci': cached,
+    '/dziekuje': cached,
+  },
+  integrations: [
+    react(),
+    emdash({
+      database: d1({ binding: 'DB', session: 'auto' }),
+      storage: r2({ binding: 'MEDIA' }),
+      // Pasek edycji na stronie ładowany po stronie klienta – nie psuje cache dla zwykłych odwiedzających
+      toolbar: 'client',
+      admin: {
+        locales: ['pl'],
+        hiddenNavItems: ['comments', 'menus', 'redirects', 'widgets', 'sections', 'bylines', 'import', 'calendar'],
+      },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
+  devToolbar: { enabled: false },
 });

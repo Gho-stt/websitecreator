@@ -1,9 +1,12 @@
 /**
  * Domyślne treści strony.
- * - Gdy Sanity jest skonfigurowane, treści z panelu /admin nadpisują te wartości.
- * - Te same wartości są startowymi wartościami formularzy w panelu.
+ * - Treści z panelu EmDash (/_emdash/admin) nadpisują te wartości.
+ * - Z tych wartości generowany jest seed/seed.json (treści startowe panelu).
  * Pola w [NAWIASACH] to placeholdery do uzupełnienia.
  */
+
+/** Adnotacje edycji wizualnej EmDash (spread na element: {...edit.pole}). */
+export type Edit = Record<string, any>;
 
 export type ServiceIcon = 'okno' | 'siatka' | 'koszyk' | 'lupa' | 'rakieta' | 'tarcza';
 
@@ -27,18 +30,21 @@ export type Settings = {
   city: string;
   email: string;
   phone: string;
+  edit?: Edit;
 };
 
-export type Package = { name: string; lead: string; price: string; features: string[]; featured?: boolean };
+export type Package = { name: string; lead: string; price: string; features: string[]; featured?: boolean; edit?: Edit };
 
 export type HomeContent = {
   hero: { eyebrow: string; title: string; lead: string; ctaPrimary: string; ctaSecondary: string };
-  services: { title: string; items: { title: string; text: string; icon: ServiceIcon }[] };
-  process: { title: string; steps: { title: string; text: string }[] };
+  services: { title: string; items: { title: string; text: string; icon: ServiceIcon; edit?: Edit }[] };
+  process: { title: string; steps: { title: string; text: string; edit?: Edit }[] };
   pricing: { title: string; intro: string; packages: Package[]; note: string };
-  faq: { title: string; items: { q: string; a: string }[] };
+  faq: { title: string; items: { q: string; a: string; edit?: Edit }[] };
   contact: { title: string; intro: string; area: string };
   seo: { title: string; description: string };
+  /** Adnotacje wpisu „Teksty sekcji” (pola hero_tytul, cennik_opis…) */
+  edit?: Edit;
 };
 
 export const defaultSettings: Settings = {

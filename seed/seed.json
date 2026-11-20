@@ -1,0 +1,711 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "defaultLocale": "pl",
+  "meta": {
+    "name": "kacper.dev",
+    "description": "Onepage-wizytówka: strony internetowe",
+    "author": "Kacper Bukalak"
+  },
+  "settings": {
+    "title": "kacper.dev",
+    "tagline": "Strony internetowe dla firm",
+    "timezone": "Europe/Warsaw"
+  },
+  "collections": [
+    {
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "group": "Strona główna",
+      "editLocking": true,
+      "slug": "strona",
+      "label": "Teksty sekcji",
+      "labelSingular": "Teksty sekcji",
+      "icon": "house",
+      "sortOrder": 1,
+      "description": "Nagłówki i opisy sekcji strony głównej oraz opis w Google.",
+      "titleField": "nazwa",
+      "admin": {
+        "quickCreate": false
+      },
+      "fields": [
+        {
+          "slug": "nazwa",
+          "label": "Nazwa (widoczna tylko w panelu)",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "hero_nadtytul",
+          "label": "Nagłówek: mały napis nad tytułem",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 60
+          }
+        },
+        {
+          "slug": "hero_tytul",
+          "label": "Nagłówek: główny tytuł",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 90
+          }
+        },
+        {
+          "slug": "hero_opis",
+          "label": "Nagłówek: opis pod tytułem",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 280
+          }
+        },
+        {
+          "slug": "hero_przycisk",
+          "label": "Nagłówek: główny przycisk",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 30
+          }
+        },
+        {
+          "slug": "hero_przycisk_2",
+          "label": "Nagłówek: drugi przycisk",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 30
+          }
+        },
+        {
+          "slug": "uslugi_tytul",
+          "label": "Usługi: tytuł sekcji",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 90
+          }
+        },
+        {
+          "slug": "proces_tytul",
+          "label": "Jak pracuję: tytuł sekcji",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 90
+          }
+        },
+        {
+          "slug": "cennik_tytul",
+          "label": "Cennik: tytuł sekcji",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 80
+          }
+        },
+        {
+          "slug": "cennik_opis",
+          "label": "Cennik: opis pod tytułem",
+          "type": "text",
+          "validation": {
+            "maxLength": 240
+          }
+        },
+        {
+          "slug": "cennik_dopisek",
+          "label": "Cennik: dopisek pod pakietami",
+          "type": "text",
+          "validation": {
+            "maxLength": 200
+          }
+        },
+        {
+          "slug": "faq_tytul",
+          "label": "FAQ: tytuł sekcji",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 60
+          }
+        },
+        {
+          "slug": "kontakt_tytul",
+          "label": "Kontakt: tytuł sekcji",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 80
+          }
+        },
+        {
+          "slug": "kontakt_opis",
+          "label": "Kontakt: opis",
+          "type": "text",
+          "validation": {
+            "maxLength": 200
+          }
+        },
+        {
+          "slug": "kontakt_obszar",
+          "label": "Kontakt: obszar działania (po nazwie miasta)",
+          "type": "string",
+          "validation": {
+            "maxLength": 60
+          }
+        },
+        {
+          "slug": "seo_tytul",
+          "label": "Google: tytuł w wynikach (do 60 znaków)",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 65
+          }
+        },
+        {
+          "slug": "seo_opis",
+          "label": "Google: opis w wynikach (120–160 znaków)",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 170
+          }
+        }
+      ]
+    },
+    {
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "group": "Strona główna",
+      "editLocking": true,
+      "slug": "uslugi",
+      "label": "Usługi",
+      "labelSingular": "Usługa",
+      "icon": "squares-four",
+      "sortOrder": 2,
+      "titleField": "tytul",
+      "admin": {
+        "listColumns": [
+          "kolejnosc"
+        ]
+      },
+      "fields": [
+        {
+          "slug": "tytul",
+          "label": "Nazwa usługi",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 40
+          }
+        },
+        {
+          "slug": "opis",
+          "label": "Krótki opis",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 160
+          }
+        },
+        {
+          "slug": "ikona",
+          "label": "Ikona",
+          "type": "select",
+          "required": true,
+          "defaultValue": "okno",
+          "validation": {
+            "options": [
+              "okno",
+              "siatka",
+              "koszyk",
+              "lupa",
+              "rakieta",
+              "tarcza"
+            ]
+          }
+        },
+        {
+          "slug": "kolejnosc",
+          "label": "Kolejność (mniejsza = wyżej)",
+          "type": "integer",
+          "indexed": true,
+          "required": true,
+          "defaultValue": 10
+        }
+      ]
+    },
+    {
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "group": "Strona główna",
+      "editLocking": true,
+      "slug": "kroki",
+      "label": "Jak pracuję",
+      "labelSingular": "Krok",
+      "icon": "list-numbers",
+      "sortOrder": 3,
+      "titleField": "tytul",
+      "admin": {
+        "listColumns": [
+          "kolejnosc"
+        ]
+      },
+      "fields": [
+        {
+          "slug": "tytul",
+          "label": "Nazwa kroku",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 30
+          }
+        },
+        {
+          "slug": "opis",
+          "label": "Opis",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 180
+          }
+        },
+        {
+          "slug": "kolejnosc",
+          "label": "Kolejność (mniejsza = wyżej)",
+          "type": "integer",
+          "indexed": true,
+          "required": true,
+          "defaultValue": 10
+        }
+      ]
+    },
+    {
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "group": "Strona główna",
+      "editLocking": true,
+      "slug": "pakiety",
+      "label": "Cennik",
+      "labelSingular": "Pakiet",
+      "icon": "tag",
+      "sortOrder": 4,
+      "titleField": "nazwa",
+      "admin": {
+        "listColumns": [
+          "cena",
+          "kolejnosc"
+        ]
+      },
+      "fields": [
+        {
+          "slug": "nazwa",
+          "label": "Nazwa pakietu",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 30
+          }
+        },
+        {
+          "slug": "opis",
+          "label": "Jedno zdanie opisu",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 60
+          }
+        },
+        {
+          "slug": "cena",
+          "label": "Cena „od” (np. 1 500 zł)",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 20
+          }
+        },
+        {
+          "slug": "cechy",
+          "label": "Co zawiera (każda pozycja w nowej linii)",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 400
+          }
+        },
+        {
+          "slug": "wyrozniony",
+          "label": "Wyróżnij jako „najczęściej wybierany”",
+          "type": "boolean",
+          "defaultValue": false
+        },
+        {
+          "slug": "kolejnosc",
+          "label": "Kolejność (mniejsza = wyżej)",
+          "type": "integer",
+          "indexed": true,
+          "required": true,
+          "defaultValue": 10
+        }
+      ]
+    },
+    {
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "group": "Strona główna",
+      "editLocking": true,
+      "slug": "faq",
+      "label": "FAQ",
+      "labelSingular": "Pytanie",
+      "icon": "question",
+      "sortOrder": 5,
+      "titleField": "pytanie",
+      "admin": {
+        "listColumns": [
+          "kolejnosc"
+        ]
+      },
+      "fields": [
+        {
+          "slug": "pytanie",
+          "label": "Pytanie",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 120
+          }
+        },
+        {
+          "slug": "odpowiedz",
+          "label": "Odpowiedź",
+          "type": "text",
+          "required": true,
+          "validation": {
+            "maxLength": 600
+          }
+        },
+        {
+          "slug": "kolejnosc",
+          "label": "Kolejność (mniejsza = wyżej)",
+          "type": "integer",
+          "indexed": true,
+          "required": true,
+          "defaultValue": 10
+        }
+      ]
+    },
+    {
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "group": "Ustawienia",
+      "editLocking": true,
+      "slug": "dane_firmy",
+      "label": "Dane firmy",
+      "labelSingular": "Dane firmy",
+      "icon": "buildings",
+      "sortOrder": 6,
+      "titleField": "marka",
+      "admin": {
+        "quickCreate": false
+      },
+      "fields": [
+        {
+          "slug": "marka",
+          "label": "Nazwa marki (obok logo)",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "maxLength": 40
+          }
+        },
+        {
+          "slug": "logo",
+          "label": "Logo (kwadratowe, PNG/SVG/WebP)",
+          "type": "image",
+          "validation": {
+            "allowedMimeTypes": [
+              "image/png",
+              "image/svg+xml",
+              "image/webp"
+            ]
+          }
+        },
+        {
+          "slug": "inicjaly",
+          "label": "Inicjały w logo (gdy brak obrazka)",
+          "type": "string",
+          "validation": {
+            "maxLength": 3
+          }
+        },
+        {
+          "slug": "wlasciciel",
+          "label": "Imię i nazwisko",
+          "type": "string",
+          "required": true
+        },
+        {
+          "slug": "email",
+          "label": "E-mail",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+          }
+        },
+        {
+          "slug": "telefon",
+          "label": "Telefon",
+          "type": "string",
+          "required": true,
+          "validation": {
+            "pattern": "^[+0-9 ()-]{9,20}$"
+          }
+        },
+        {
+          "slug": "miasto",
+          "label": "Miasto",
+          "type": "string"
+        },
+        {
+          "slug": "nazwa_firmy",
+          "label": "Pełna nazwa firmy (RODO, polityka prywatności)",
+          "type": "string"
+        },
+        {
+          "slug": "nip",
+          "label": "NIP",
+          "type": "string"
+        },
+        {
+          "slug": "adres",
+          "label": "Adres firmy",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "strona": [
+      {
+        "id": "strona-glowna",
+        "status": "published",
+        "data": {
+          "nazwa": "Strona główna",
+          "hero_nadtytul": "projektuję i koduję strony www",
+          "hero_tytul": "Strona, która pracuje na Twoją firmę. Nie tylko ładnie wygląda.",
+          "hero_opis": "Tworzę szybkie, nowoczesne strony dla małych firm i freelancerów — od wizytówki po sklep. Projekt, teksty, wdrożenie i domena w jednych rękach. Ty akceptujesz, ja robię resztę.",
+          "hero_przycisk": "Bezpłatna wycena",
+          "hero_przycisk_2": "Zobacz cennik",
+          "uslugi_tytul": "Wszystko, czego potrzebujesz, żeby zaistnieć w sieci",
+          "proces_tytul": "Cztery kroki od rozmowy do gotowej strony",
+          "cennik_tytul": "Jasne ceny, bez niespodzianek",
+          "cennik_opis": "Podane kwoty to ceny startowe netto. Dokładną wycenę dostajesz po krótkiej rozmowie — za darmo i bez zobowiązań.",
+          "cennik_dopisek": "Opieka techniczna po starcie: od 150 zł / mies. · Hosting i domena — pomogę wybrać i skonfigurować.",
+          "faq_tytul": "Częste pytania",
+          "kontakt_tytul": "Porozmawiajmy o Twojej stronie",
+          "kontakt_opis": "Opisz w kilku zdaniach, czego potrzebujesz. Odpowiadam w ciągu 24 godzin w dni robocze.",
+          "kontakt_obszar": "i zdalnie w całej Polsce",
+          "seo_tytul": "Kacper Bukalak – strony internetowe dla firm",
+          "seo_opis": "Projektuję i koduję szybkie strony internetowe dla małych firm: wizytówki, strony firmowe i sklepy. Projekt, teksty i wdrożenie w jednych rękach."
+        }
+      }
+    ],
+    "uslugi": [
+      {
+        "id": "usluga-1",
+        "status": "published",
+        "data": {
+          "tytul": "Strony wizytówki",
+          "opis": "Onepage z ofertą, kontaktem i formularzem. Idealny start dla firmy usługowej.",
+          "ikona": "okno",
+          "kolejnosc": 10
+        }
+      },
+      {
+        "id": "usluga-2",
+        "status": "published",
+        "data": {
+          "tytul": "Strony firmowe",
+          "opis": "Kilka podstron, blog i panel do samodzielnej edycji treści — bez znajomości kodu.",
+          "ikona": "siatka",
+          "kolejnosc": 20
+        }
+      },
+      {
+        "id": "usluga-3",
+        "status": "published",
+        "data": {
+          "tytul": "Sklepy internetowe",
+          "opis": "Sklep na Shopify lub WooCommerce z płatnościami, dostawą i integracjami.",
+          "ikona": "koszyk",
+          "kolejnosc": 30
+        }
+      },
+      {
+        "id": "usluga-4",
+        "status": "published",
+        "data": {
+          "tytul": "SEO i opieka",
+          "opis": "Widoczność w Google, aktualizacje, kopie zapasowe i szybkie poprawki po starcie.",
+          "ikona": "lupa",
+          "kolejnosc": 40
+        }
+      }
+    ],
+    "kroki": [
+      {
+        "id": "krok-1",
+        "status": "published",
+        "data": {
+          "tytul": "Brief",
+          "opis": "Krótka rozmowa lub formularz: czym się zajmujesz, kto jest klientem, co ma się wydarzyć na stronie.",
+          "kolejnosc": 10
+        }
+      },
+      {
+        "id": "krok-2",
+        "status": "published",
+        "data": {
+          "tytul": "Projekt",
+          "opis": "Pokazuję szkic wyglądu i teksty. Poprawiamy, aż będzie dokładnie tak, jak chcesz.",
+          "kolejnosc": 20
+        }
+      },
+      {
+        "id": "krok-3",
+        "status": "published",
+        "data": {
+          "tytul": "Budowa",
+          "opis": "Koduję stronę, testuję na telefonach i komputerach, dbam o szybkość i SEO.",
+          "kolejnosc": 30
+        }
+      },
+      {
+        "id": "krok-4",
+        "status": "published",
+        "data": {
+          "tytul": "Start",
+          "opis": "Podpinam domenę, publikuję i pokazuję, jak korzystać ze strony. Zostaję w kontakcie.",
+          "kolejnosc": 40
+        }
+      }
+    ],
+    "pakiety": [
+      {
+        "id": "pakiet-1",
+        "status": "published",
+        "data": {
+          "nazwa": "Onepage",
+          "opis": "Wizytówka firmy na jednej stronie",
+          "cena": "1 500 zł",
+          "cechy": "do 6 sekcji\nformularz kontaktowy + RODO\nwersja mobilna\npodstawowe SEO\ngotowe w ok. 7 dni",
+          "wyrozniony": false,
+          "kolejnosc": 10
+        }
+      },
+      {
+        "id": "pakiet-2",
+        "status": "published",
+        "data": {
+          "nazwa": "Strona firmowa",
+          "opis": "Kilka podstron i samodzielna edycja",
+          "cena": "3 500 zł",
+          "cechy": "do 8 podstron + blog\npanel do edycji treści\nteksty sprzedażowe\nSEO i analityka\ngotowe w ok. 3 tygodnie",
+          "wyrozniony": true,
+          "kolejnosc": 20
+        }
+      },
+      {
+        "id": "pakiet-3",
+        "status": "published",
+        "data": {
+          "nazwa": "Sklep internetowy",
+          "opis": "Sprzedaż online od pierwszego dnia",
+          "cena": "6 000 zł",
+          "cechy": "Shopify lub WooCommerce\npłatności i dostawy\nimport produktów\nregulamin i RODO\nszkolenie z obsługi",
+          "wyrozniony": false,
+          "kolejnosc": 30
+        }
+      }
+    ],
+    "faq": [
+      {
+        "id": "faq-1",
+        "status": "published",
+        "data": {
+          "pytanie": "Ile trwa zrobienie strony?",
+          "odpowiedz": "Onepage zwykle około tygodnia, strona firmowa 2–4 tygodnie. Najwięcej zależy od tempa akceptacji i dostarczenia materiałów.",
+          "kolejnosc": 10
+        }
+      },
+      {
+        "id": "faq-2",
+        "status": "published",
+        "data": {
+          "pytanie": "Nie mam tekstów ani zdjęć. Co teraz?",
+          "odpowiedz": "Żaden problem — napiszę teksty na podstawie rozmowy i dobiorę zdjęcia. Ty tylko akceptujesz.",
+          "kolejnosc": 20
+        }
+      },
+      {
+        "id": "faq-3",
+        "status": "published",
+        "data": {
+          "pytanie": "Czy sam będę mógł zmieniać treści?",
+          "odpowiedz": "Tak, w pakiecie „Strona firmowa” dostajesz prosty panel do edycji tekstów, zdjęć i wpisów na blogu.",
+          "kolejnosc": 30
+        }
+      },
+      {
+        "id": "faq-4",
+        "status": "published",
+        "data": {
+          "pytanie": "Jak wygląda płatność?",
+          "odpowiedz": "50% zaliczki na start i 50% po akceptacji gotowej strony. Wystawiam fakturę.",
+          "kolejnosc": 40
+        }
+      }
+    ],
+    "dane_firmy": [
+      {
+        "id": "dane-firmy",
+        "status": "published",
+        "data": {
+          "marka": "kacper.dev",
+          "inicjaly": "KB",
+          "wlasciciel": "Kacper Bukalak",
+          "email": "kontakt@twojadomena.pl",
+          "telefon": "+48 000 000 000",
+          "miasto": "[MIASTO]",
+          "nazwa_firmy": "[NAZWA FIRMY]",
+          "nip": "[NIP]",
+          "adres": "[ADRES FIRMY]"
+        }
+      }
+    ]
+  }
+}

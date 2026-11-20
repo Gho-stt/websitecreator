@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getContent } from '../lib/content';
 const content = await getContent();
+if (Astro.cache?.enabled) for (const hint of content.cacheHints) Astro.cache.set(hint as any);
 const site = content.settings;
 // UWAGA: to szablon do uzupełnienia, nie porada prawna. Przed publikacją
 // sprawdź treść pod kątem swojej działalności.
@@ -40,8 +41,7 @@ const updated = '[DATA AKTUALIZACJI]';
         <h2>4. Komu przekazuję dane</h2>
         <p>Dane mogą trafić do dostawców usług technicznych, z którymi mam zawarte umowy powierzenia:</p>
         <ul>
-          <li>Cloudflare, Inc. — hosting strony i obsługa formularza;</li>
-          <li>Sanity AS — system zarządzania treścią strony (bez danych z formularza);</li>
+          <li>Cloudflare, Inc. — hosting strony, panel administracyjny, baza treści i obsługa formularza;</li>
           <li>Resend (Plus Five Five, Inc.) — wysyłka wiadomości e-mail z formularza;</li>
           <li>[DOSTAWCA SKRZYNKI E-MAIL] — przechowywanie korespondencji.</li>
         </ul>

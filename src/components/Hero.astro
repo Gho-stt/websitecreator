@@ -1,7 +1,8 @@
 ---
-import type { HomeContent } from '../data/site';
-interface Props { hero: HomeContent['hero'] }
-const { hero } = Astro.props;
+import type { Edit, HomeContent } from '../data/site';
+import { ed } from '../lib/content';
+interface Props { hero: HomeContent['hero']; edit?: Edit }
+const { hero, edit } = Astro.props;
 const stack = ['Astro', 'Tailwind CSS', 'WordPress', 'Shopify', 'WooCommerce', 'Cloudflare', 'SEO', 'Core Web Vitals', 'RODO', 'Google Analytics'];
 const scores = [
   { label: 'wydajność', value: 100 },
@@ -18,14 +19,14 @@ const scores = [
 
   <section id="top" class="relative mx-auto flex max-w-page flex-wrap items-center gap-14 px-6 pt-20 pb-16 md:pt-28 md:pb-20">
     <div class="min-w-0 flex-[999_1_560px]">
-      <p class="hero-in mb-6 font-mono text-sm tracking-wide text-accent">&gt; {hero.eyebrow}</p>
-      <h1 class="hero-in mb-7 font-display text-[clamp(2.5rem,6.4vw,5.25rem)] leading-[1.02] font-extrabold tracking-[-0.03em] text-ink text-balance" style="--d: 80ms">
+      <p class="hero-in mb-6 font-mono text-sm tracking-wide text-accent">&gt; <span {...ed(edit, 'hero_nadtytul')}>{hero.eyebrow}</span></p>
+      <h1 class="hero-in mb-7 font-display text-[clamp(2.5rem,6.4vw,5.25rem)] leading-[1.02] font-extrabold tracking-[-0.03em] text-ink text-balance" style="--d: 80ms" {...ed(edit, 'hero_tytul')}>
         {hero.title}
       </h1>
-      <p class="hero-in mb-10 max-w-[600px] text-[19px] text-soft" style="--d: 200ms">{hero.lead}</p>
+      <p class="hero-in mb-10 max-w-[600px] text-[19px] text-soft" style="--d: 200ms" {...ed(edit, 'hero_opis')}>{hero.lead}</p>
       <div class="hero-in flex flex-wrap gap-3.5" style="--d: 320ms">
-        <a href="#kontakt" class="btn-primary group">{hero.ctaPrimary} <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span></a>
-        <a href="#cennik" class="btn-ghost">{hero.ctaSecondary}</a>
+        <a href="#kontakt" class="btn-primary group"><span {...ed(edit, 'hero_przycisk')}>{hero.ctaPrimary}</span> <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span></a>
+        <a href="#cennik" class="btn-ghost"><span {...ed(edit, 'hero_przycisk_2')}>{hero.ctaSecondary}</span></a>
       </div>
     </div>
 

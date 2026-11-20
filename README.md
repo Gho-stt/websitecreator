@@ -1,12 +1,12 @@
 # kacper.dev – strona-wizytówka
 
-Onepage w **Astro 7 + Tailwind CSS v4**, hostowany na **Cloudflare Workers**. Treści edytuje się w panelu **Sanity Studio** pod `/admin`. Formularz kontaktowy wysyła maile przez **Resend**.
+Onepage w **Astro 7 + Tailwind CSS v4** z panelem **EmDash** (CMS dla Astro od Cloudflare), hostowany na **Cloudflare Workers** z bazą **D1** i plikami w **R2**. Wszystko na jednym koncie Cloudflare, bez zewnętrznych usług (poza Resend do wysyłki maili z formularza).
 
 ## Start lokalnie
 
 ```bash
 npm install
-npm run dev        # strona: http://localhost:4321, panel: http://localhost:4321/admin
+npm run dev        # strona: http://localhost:4321, panel: http://localhost:4321/_emdash/admin
 npm run build      # produkcyjny build do dist/
 npm run preview    # podgląd builda
 ```
@@ -15,35 +15,54 @@ PowerShell z błędem „running scripts is disabled”: raz `Set-ExecutionPolic
 
 Do testowania wysyłki formularza lokalnie skopiuj `.dev.vars.example` do `.dev.vars` i wpisz klucz Resend.
 
-## Panel administracyjny (Sanity Studio)
+## Panel administracyjny (EmDash)
 
-Panel `/admin` pozwala edytować bez kodu: nagłówek, usługi, kroki, cennik, FAQ, teksty kontaktu, opis w Google oraz dane firmy i logo. Bez `projectId` strona używa treści domyślnych z `src/data/site.ts`.
+Panel: **http://localhost:4321/_emdash/admin** (po polsku). Model treści i teksty startowe są w `seed/seed.json`:
 
-1. Projekt Sanity: `cu8f2gr3` (`sanity.project.mjs`), dataset `production`.
-2. sanity.io/manage → projekt → **API → CORS origins**: `http://localhost:4321` z **Allow credentials** (później też adres produkcyjny).
-3. `npm run dev` → http://localhost:4321/admin → otwórz „Strona główna” i „Dane firmy” → **Opublikuj**.
-4. Pusty dokument? „⋯” obok „Opublikuj” → **Przywróć treści startowe** → Potwierdź → Opublikuj.
-5. Poprzednie wersje: „⋯” w prawym górnym rogu dokumentu → historia → wybierz wersję → **Przywróć**.
+- **Strona główna** → Teksty sekcji, Usługi, Jak pracuję, Cennik, FAQ
+- **Ustawienia** → Dane firmy (marka, logo, kontakt, NIP, adres)
 
-Dostęp dla klienta: sanity.io/manage → **Members → Invite**, rola **Editor**.
+Kolejność usług, kroków, pakietów i pytań ustala pole „Kolejność” (mniejsza liczba = wyżej).
 
-Automatyczna publikacja na produkcji: Cloudflare → Workers & Pages → projekt → **Settings → Builds → Deploy Hooks** (gałąź `main`), a w Sanity **API → Webhooks** z tym URL-em, filtr `_type in ["stronaGlowna", "ustawienia"]`, metoda POST. Gdy Sanity jest niedostępne podczas buildu produkcyjnego, build się przerywa (poprzednia wersja zostaje online).
+### Pierwsze uruchomienie lokalnie
+1. `npm run dev`
+2. Otwórz http://localhost:4321/_emdash/api/setup/dev-bypass – tworzy lokalne konto administratora, bazę i wgrywa treści startowe (tylko w trybie dev).
+3. Panel: http://localhost:4321/_emdash/admin
+
+### Edycja na stronie (podgląd na żywo)
+1. Będąc zalogowanym w panelu, wejdź na stronę i kliknij **„Edytuj”** (przycisk w rogu).
+2. Na dole pojawi się pasek – włącz **„Tryb edycji”**.
+3. Kliknij dowolny tekst (tytuł, opis, cenę, pytanie w FAQ) i pisz bezpośrednio na stronie. Zmiana zapisuje się jako szkic („Nieopublikowane zmiany”).
+4. Kliknij **„Opublikuj”** na pasku – odwiedzający widzą zmianę od razu.
+
+Listę „Co zawiera” w pakietach, ikony usług, kolejność i logo zmienia się w panelu (ikona strzałki na pasku otwiera wpis w panelu). Każdy wpis ma historię wersji („Wersje” w panelu bocznym edytora).
+
+### Jak działa szybkość
+Strony renderują się z bazy D1 i są cache'owane na krawędzi Cloudflare (`routeRules` w `astro.config.mjs`). EmDash czyści cache automatycznie po każdej publikacji, więc zmiany widać w kilka sekund, a odwiedzający dostają gotową stronę z cache.
+
+### Konta
+Panel → **Użytkownicy** → zaproś klienta z rolą redaktora. Logowanie kluczem dostępu (passkey: odcisk palca / Face ID / Windows Hello).
 
 ## Co uzupełnić przed publikacją
 
-1. Dane firmy, teksty i ceny: w panelu `/admin` (albo domyślne w `src/data/site.ts`).
+1. Dane firmy, teksty i ceny: w panelu (domyślne w `src/data/site.ts` → `seed/seed.json`).
 2. `astro.config.mjs` i `public/robots.txt`: docelowa domena (`SITE_URL`).
 3. `wrangler.jsonc`: `CONTACT_TO` i `CONTACT_FROM` (adres w zweryfikowanej domenie w Resend).
 4. `src/pages/polityka-prywatnosci.astro`: data aktualizacji, dostawca skrzynki e-mail. To szablon, sprawdź go pod kątem swojej działalności.
 5. Logo: panel „Dane firmy” → Logo; favicon w `public/favicon.svg`.
+6. `src/pages/polityka-prywatnosci.astro`: Cloudflare jest teraz też miejscem przechowywania treści panelu.
 
 ## Wdrożenie (Cloudflare, bez CLI)
 
 1. Wypchnij repo na GitHub.
-2. Cloudflare → **Workers & Pages → Create → Import a repository**. Build command `npm run build`, deploy command `npx wrangler deploy`.
-3. **Settings → Variables and Secrets → Add → Secret** `RESEND_API_KEY`.
-4. **Settings → Domains & Routes** → domena.
-5. Każdy push na `main` buduje i publikuje stronę.
+2. Cloudflare → **Storage & Databases → D1 → Create**: nazwa `kacper-dev`, lokalizacja **Western Europe (EU)**. Skopiuj `database_id` do `wrangler.jsonc` (`d1_databases`).
+3. Cloudflare → **R2 → Create bucket**: `kacper-dev-media` (lokalizacja EU).
+4. Cloudflare → **Workers & Pages → Create → Import a repository**. Build command `npm run build`, deploy command `npx wrangler deploy`.
+5. **Settings → Variables and Secrets** → sekret `RESEND_API_KEY`.
+6. **Settings → Domains & Routes** → domena. Wejdź na `https://twojadomena.pl/_emdash/admin` → kreator konfiguracji (nazwa, konto administratora, klucz dostępu).
+7. Każdy push na `main` buduje i publikuje stronę. Zmiany treści z panelu nie wymagają wdrożenia.
+
+Plan Workers Paid (ok. 5 $/mies.) zalecany dla strony komercyjnej. Kopie zapasowe: panel → Ustawienia (eksport JSON) + D1 Time Travel (przywracanie do 30 dni wstecz).
 
 Resend: konto na resend.com, weryfikacja domeny (DNS w Cloudflare), API key z *Sending access* jako sekret `RESEND_API_KEY`.
 

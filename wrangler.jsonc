@@ -1,10 +1,19 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "kacper-dev",
+  "main": "./src/worker.ts",
   "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": true },
-  // Jawne zmienne (nie-sekretne). Klucz RESEND_API_KEY ustaw jako sekret
-  // w panelu Cloudflare: Workers & Pages → kacper-dev → Settings → Variables and Secrets.
+  // Treści, użytkownicy i ustawienia panelu (wybierz lokalizację EU przy tworzeniu bazy)
+  "d1_databases": [{ "binding": "DB", "database_name": "kacper-dev" }],
+  // Logo i inne pliki wgrane w panelu
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "kacper-dev-media" }],
+  // Współbieżna edycja i zadania EmDash (publikacja zaplanowana, sprzątanie mediów)
+  "durable_objects": { "bindings": [{ "name": "EMDASH_ROOMS", "class_name": "EmDashRoom" }] },
+  "exports": { "EmDashRoom": { "type": "durable-object", "storage": "sqlite" } },
+  "triggers": { "crons": ["* * * * *"] },
+  // Jawne zmienne. Klucz RESEND_API_KEY ustaw jako sekret w panelu Cloudflare.
   "vars": {
     "CONTACT_TO": "kontakt@twojadomena.pl",
     "CONTACT_FROM": "Formularz kacper.dev <formularz@twojadomena.pl>"

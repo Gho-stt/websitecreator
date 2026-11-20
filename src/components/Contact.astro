@@ -1,15 +1,16 @@
 ---
-import { packageId, type HomeContent, type Settings } from '../data/site';
-interface Props { contact: HomeContent['contact']; packages: HomeContent['pricing']['packages']; settings: Settings }
-const { contact, packages, settings: site } = Astro.props;
+import { packageId, type Edit, type HomeContent, type Settings } from '../data/site';
+import { ed } from '../lib/content';
+interface Props { contact: HomeContent['contact']; packages: HomeContent['pricing']['packages']; settings: Settings; edit?: Edit }
+const { contact, packages, settings: site, edit } = Astro.props;
 const phoneHref = site.phone.replace(/[^+0-9]/g, '');
 ---
 <section id="kontakt" class="border-t border-line bg-band">
   <div class="mx-auto flex max-w-page flex-wrap gap-14 px-6 py-24">
     <div class="min-w-0 flex-[1_1_420px]">
       <p class="eyebrow" data-reveal>05 / kontakt</p>
-      <h2 class="section-title mb-5" data-reveal style="--d: 80ms">{contact.title}</h2>
-      <p class="mb-10 text-muted" data-reveal style="--d: 160ms">{contact.intro}</p>
+      <h2 class="section-title mb-5" data-reveal style="--d: 80ms" {...ed(edit, 'kontakt_tytul')}>{contact.title}</h2>
+      <p class="mb-10 text-muted" data-reveal style="--d: 160ms" {...ed(edit, 'kontakt_opis')}>{contact.intro}</p>
       <dl class="flex flex-col gap-5" data-reveal style="--d: 240ms">
         <div>
           <dt class="font-mono text-[13px] text-muted">e-mail</dt>
@@ -21,7 +22,7 @@ const phoneHref = site.phone.replace(/[^+0-9]/g, '');
         </div>
         <div>
           <dt class="font-mono text-[13px] text-muted">działam</dt>
-          <dd class="text-xl font-bold text-ink">{site.city} {contact.area}</dd>
+          <dd class="text-xl font-bold text-ink"><span {...ed(site.edit, 'miasto')}>{site.city}</span> <span {...ed(edit, 'kontakt_obszar')}>{contact.area}</span></dd>
         </div>
       </dl>
     </div>
