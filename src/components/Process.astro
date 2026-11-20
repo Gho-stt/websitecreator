@@ -1,0 +1,21 @@
+---
+import type { HomeContent } from '../data/site';
+interface Props { process: HomeContent['process'] }
+const { process } = Astro.props;
+---
+<section id="proces" class="border-t border-line">
+  <div class="mx-auto max-w-page px-6 py-24">
+    <p class="eyebrow" data-reveal>02 / jak pracuję</p>
+    <h2 class="section-title mb-14 max-w-[760px]" data-reveal style="--d: 80ms">{process.title}</h2>
+    <ol class="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-8">
+      {process.steps.map((step, i) => (
+        <li class="relative border-t-2 border-line-strong pt-6" data-reveal style={`--d: ${i * 150}ms`}>
+          <span class="step-bar absolute -top-0.5 left-0 h-0.5 w-full bg-accent" style={`--bar-d: ${i * 450}ms`} aria-hidden="true"></span>
+          <div class="font-mono text-sm text-muted">krok {i + 1}</div>
+          <h3 class="mt-2 mb-2.5 font-display text-[23px] font-bold text-ink">{step.title}</h3>
+          <p class="text-muted">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

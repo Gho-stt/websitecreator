@@ -1,0 +1,15 @@
+---
+import type { Settings } from '../data/site';
+interface Props { settings: Settings }
+const { settings: site } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-page flex-wrap justify-between gap-4 px-6 py-8 text-sm text-muted">
+    <span>© {year} {site.owner} · Strony internetowe</span>
+    <span class="flex gap-6">
+      <a href="/polityka-prywatnosci" class="text-muted hover:text-ink">Polityka prywatności</a>
+      <a href="#top" class="text-muted hover:text-ink">Do góry <span aria-hidden="true">↑</span></a>
+    </span>
+  </div>
+</footer>

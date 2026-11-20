@@ -1,0 +1,47 @@
+---
+import Logo from './Logo.astro';
+import { nav, type Settings } from '../data/site';
+interface Props { settings: Settings }
+const { settings } = Astro.props;
+---
+<header class="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-md">
+  <div class="mx-auto flex max-w-page items-center justify-between gap-4 px-6 py-4">
+    <Logo settings={settings} />
+    <nav aria-label="Główna" class="hidden items-center gap-7 text-[15px] md:flex">
+      {nav.map((item) => <a href={`/${item.href}`} class="text-soft hover:text-ink">{item.label}</a>)}
+      <a href="/#kontakt" class="btn-primary min-h-11 px-5 text-[15px]">Wyceń stronę</a>
+    </nav>
+    <button
+      type="button"
+      class="inline-flex size-11 items-center justify-center rounded-lg border border-line-strong text-ink md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Otwórz menu"
+      data-menu-toggle
+    >
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+    </button>
+  </div>
+  <nav id="mobile-nav" aria-label="Mobilna" class="hidden border-t border-line px-6 pb-6 md:hidden" data-menu>
+    <ul class="flex flex-col pt-2">
+      {nav.map((item) => (
+        <li><a href={`/${item.href}`} class="block py-3 text-lg text-soft hover:text-ink">{item.label}</a></li>
+      ))}
+    </ul>
+    <a href="/#kontakt" class="btn-primary mt-3 w-full">Wyceń stronę</a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+      menu.classList.toggle('hidden', !open);
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  }
+</script>

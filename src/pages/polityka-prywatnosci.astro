@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getContent } from '../lib/content';
+const content = await getContent();
+const site = content.settings;
+// UWAGA: to szablon do uzupełnienia, nie porada prawna. Przed publikacją
+// sprawdź treść pod kątem swojej działalności.
+const updated = '[DATA AKTUALIZACJI]';
+---
+<Layout content={content} title={`Polityka prywatności – ${site.brand}`} description="Informacje o przetwarzaniu danych osobowych i plikach cookies.">
+  <Header settings={site} />
+  <main id="main" class="mx-auto max-w-[760px] px-6 py-20">
+    <p class="eyebrow">&gt; rodo</p>
+    <h1 class="section-title mb-4">Polityka prywatności</h1>
+    <p class="mb-12 text-muted">Ostatnia aktualizacja: {updated}</p>
+
+    <div class="flex flex-col gap-10 text-soft [&_h2]:mb-3 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-ink [&_a]:underline [&_a]:underline-offset-2 [&_li]:ml-5 [&_li]:list-disc [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-1.5">
+      <section>
+        <h2>1. Administrator danych</h2>
+        <p>Administratorem Twoich danych osobowych jest {site.companyName}, {site.address}, NIP {site.nip} (dalej: „Administrator”). Kontakt w sprawach danych osobowych: <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      </section>
+
+      <section>
+        <h2>2. Jakie dane i w jakim celu</h2>
+        <p>Przez formularz kontaktowy zbieram: imię i nazwisko, adres e-mail, wybrany pakiet i treść wiadomości. Dane przetwarzam wyłącznie w celu:</p>
+        <ul>
+          <li>odpowiedzi na zapytanie i przygotowania wyceny — na podstawie Twojej zgody (art. 6 ust. 1 lit. a RODO) oraz działań przed zawarciem umowy (art. 6 ust. 1 lit. b RODO);</li>
+          <li>ewentualnego ustalenia, dochodzenia lub obrony roszczeń — prawnie uzasadniony interes Administratora (art. 6 ust. 1 lit. f RODO).</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>3. Jak długo przechowuję dane</h2>
+        <p>Dane z zapytań przechowuję do 12 miesięcy od ostatniego kontaktu, chyba że dojdzie do zawarcia umowy — wtedy przez okres jej realizacji i przedawnienia roszczeń. Zgodę możesz wycofać w każdej chwili; nie wpływa to na zgodność z prawem przetwarzania przed jej wycofaniem.</p>
+      </section>
+
+      <section>
+        <h2>4. Komu przekazuję dane</h2>
+        <p>Dane mogą trafić do dostawców usług technicznych, z którymi mam zawarte umowy powierzenia:</p>
+        <ul>
+          <li>Cloudflare, Inc. — hosting strony i obsługa formularza;</li>
+          <li>Sanity AS — system zarządzania treścią strony (bez danych z formularza);</li>
+          <li>Resend (Plus Five Five, Inc.) — wysyłka wiadomości e-mail z formularza;</li>
+          <li>[DOSTAWCA SKRZYNKI E-MAIL] — przechowywanie korespondencji.</li>
+        </ul>
+        <p class="mt-3">Część dostawców ma siedzibę w USA. Przekazanie odbywa się na podstawie decyzji Komisji Europejskiej (EU-U.S. Data Privacy Framework) lub standardowych klauzul umownych.</p>
+      </section>
+
+      <section>
+        <h2>5. Twoje prawa</h2>
+        <p>Masz prawo do dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przenoszenia, wniesienia sprzeciwu oraz cofnięcia zgody. Przysługuje Ci też prawo wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).</p>
+        <p class="mt-3">Podanie danych jest dobrowolne, ale bez nich nie odpowiem na zapytanie.</p>
+      </section>
+
+      <section>
+        <h2>6. Pliki cookies i analityka</h2>
+        <p>Strona nie używa plików cookies śledzących ani narzędzi analitycznych zbierających dane osobowe. Czcionki są serwowane z tego samego serwera co strona, bez łączenia z zewnętrznymi usługami. Jeśli w przyszłości dodam analitykę, zaktualizuję tę politykę i poproszę o zgodę.</p>
+      </section>
+    </div>
+  </main>
+  <Footer settings={site} />
+</Layout>

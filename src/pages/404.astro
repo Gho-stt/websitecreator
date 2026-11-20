@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getContent } from '../lib/content';
+const content = await getContent();
+---
+<Layout content={content} title="Nie znaleziono strony (404)" noindex>
+  <Header settings={content.settings} />
+  <main id="main" class="mx-auto max-w-page px-6 py-32">
+    <p class="eyebrow">&gt; error 404</p>
+    <h1 class="section-title mb-6">Tej strony tu nie ma.</h1>
+    <a href="/" class="btn-primary">Wróć na stronę główną</a>
+  </main>
+  <Footer settings={content.settings} />
+</Layout>

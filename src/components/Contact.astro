@@ -1,0 +1,135 @@
+---
+import { packageId, type HomeContent, type Settings } from '../data/site';
+interface Props { contact: HomeContent['contact']; packages: HomeContent['pricing']['packages']; settings: Settings }
+const { contact, packages, settings: site } = Astro.props;
+const phoneHref = site.phone.replace(/[^+0-9]/g, '');
+---
+<section id="kontakt" class="border-t border-line bg-band">
+  <div class="mx-auto flex max-w-page flex-wrap gap-14 px-6 py-24">
+    <div class="min-w-0 flex-[1_1_420px]">
+      <p class="eyebrow" data-reveal>05 / kontakt</p>
+      <h2 class="section-title mb-5" data-reveal style="--d: 80ms">{contact.title}</h2>
+      <p class="mb-10 text-muted" data-reveal style="--d: 160ms">{contact.intro}</p>
+      <dl class="flex flex-col gap-5" data-reveal style="--d: 240ms">
+        <div>
+          <dt class="font-mono text-[13px] text-muted">e-mail</dt>
+          <dd><a href={`mailto:${site.email}`} class="text-xl font-bold break-all">{site.email}</a></dd>
+        </div>
+        <div>
+          <dt class="font-mono text-[13px] text-muted">telefon</dt>
+          <dd><a href={`tel:${phoneHref}`} class="text-xl font-bold">{site.phone}</a></dd>
+        </div>
+        <div>
+          <dt class="font-mono text-[13px] text-muted">działam</dt>
+          <dd class="text-xl font-bold text-ink">{site.city} {contact.area}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <form
+      action="/api/contact"
+      method="post"
+      class="flex min-w-0 flex-[999_1_520px] flex-col gap-[18px] rounded-card-lg border border-[#2a2d34] bg-surface p-6 sm:p-9"
+      data-contact-form
+      data-reveal
+      style="--d: 120ms"
+      novalidate
+    >
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[18px]">
+        <label class="flex flex-col gap-2 text-[15px] text-soft">
+          Imię i nazwisko
+          <input class="field" type="text" name="name" required autocomplete="name" maxlength="120" />
+        </label>
+        <label class="flex flex-col gap-2 text-[15px] text-soft">
+          E-mail
+          <input class="field" type="email" name="email" required autocomplete="email" maxlength="200" />
+        </label>
+      </div>
+      <label class="flex flex-col gap-2 text-[15px] text-soft">
+        Czego potrzebujesz?
+        <select class="field" name="package" data-package-select>
+          {packages.map((p) => <option value={packageId(p.name)}>{p.name}</option>)}
+          <option value="nie-wiem">Jeszcze nie wiem</option>
+        </select>
+      </label>
+      <label class="flex flex-col gap-2 text-[15px] text-soft">
+        Wiadomość
+        <textarea
+          class="field resize-y py-3.5"
+          name="message"
+          rows="5"
+          required
+          minlength="10"
+          maxlength="5000"
+          placeholder="Np. prowadzę gabinet fizjoterapii i potrzebuję prostej strony z cennikiem i zapisami."
+        ></textarea>
+      </label>
+
+      <!-- Pułapka na boty: pole niewidoczne dla ludzi -->
+      <div class="absolute -left-[9999px]" aria-hidden="true">
+        <label>Strona www <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <label class="flex items-start gap-3 text-sm leading-normal text-muted">
+        <input type="checkbox" name="consent" value="tak" required class="mt-0.5 size-5 shrink-0 accent-accent" />
+        <span>
+          Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie. Administratorem danych jest {site.companyName}.
+          Szczegóły w <a href="/polityka-prywatnosci" class="underline underline-offset-2">polityce prywatności</a>.
+        </span>
+      </label>
+
+      <button type="submit" class="btn-primary group min-h-[3.375rem] cursor-pointer text-[17px] disabled:cursor-wait disabled:opacity-70" data-submit>
+        Wyślij zapytanie <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
+      </button>
+      <p class="min-h-6 text-[15px]" role="status" aria-live="polite" data-status></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  // Klik „Wybieram” w cenniku ustawia pakiet w formularzu
+  const select = document.querySelector<HTMLSelectElement>('[data-package-select]');
+  document.querySelectorAll<HTMLAnchorElement>('[data-package]').forEach((a) =>
+    a.addEventListener('click', () => {
+      if (select && a.dataset.package) select.value = a.dataset.package;
+    }),
+  );
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const status = form?.querySelector<HTMLElement>('[data-status]');
+  const submit = form?.querySelector<HTMLButtonElement>('[data-submit]');
+
+  const show = (msg: string, ok: boolean) => {
+    if (!status) return;
+    status.textContent = msg;
+    status.className = `min-h-6 text-[15px] ${ok ? 'text-accent' : 'text-danger'}`;
+  };
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    submit!.disabled = true;
+    show('Wysyłam…', true);
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        form.reset();
+        show('Dziękuję! Wiadomość dotarła — odezwę się w ciągu 24 godzin.', true);
+      } else {
+        show(data.error ?? 'Nie udało się wysłać. Napisz proszę bezpośrednio na e-mail.', false);
+      }
+    } catch {
+      show('Brak połączenia. Spróbuj ponownie lub napisz bezpośrednio na e-mail.', false);
+    } finally {
+      submit!.disabled = false;
+    }
+  });
+</script>

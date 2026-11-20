@@ -1,0 +1,13 @@
+---
+import type { Settings } from '../data/site';
+interface Props { settings: Settings }
+const { settings } = Astro.props;
+---
+<a href="/" class="flex items-center gap-2.5 font-mono font-medium text-ink hover:text-ink">
+  {settings.logoUrl ? (
+    <img src={`${settings.logoUrl}?h=64&fit=max&auto=format`} alt="" width="32" height="32" class="size-8 rounded-lg object-contain" />
+  ) : (
+    <span class="inline-flex size-8 items-center justify-center rounded-lg bg-accent font-bold text-bg" aria-hidden="true">{settings.logoInitials}</span>
+  )}
+  <span>{settings.brand}</span>
+</a>

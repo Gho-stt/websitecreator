@@ -1,0 +1,67 @@
+---
+import type { HomeContent } from '../data/site';
+interface Props { hero: HomeContent['hero'] }
+const { hero } = Astro.props;
+const stack = ['Astro', 'Tailwind CSS', 'WordPress', 'Shopify', 'WooCommerce', 'Cloudflare', 'SEO', 'Core Web Vitals', 'RODO', 'Google Analytics'];
+const scores = [
+  { label: 'wydajność', value: 100 },
+  { label: 'dostępność', value: 100 },
+  { label: 'SEO', value: 100 },
+];
+---
+<div class="relative overflow-hidden">
+  <!-- Delikatna siatka kropek w tle -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-line-strong)_1px,transparent_1px)] bg-[size:28px_28px] opacity-60 [mask-image:radial-gradient(ellipse_70%_60%_at_70%_40%,black,transparent)]"
+    aria-hidden="true"
+  ></div>
+
+  <section id="top" class="relative mx-auto flex max-w-page flex-wrap items-center gap-14 px-6 pt-20 pb-16 md:pt-28 md:pb-20">
+    <div class="min-w-0 flex-[999_1_560px]">
+      <p class="hero-in mb-6 font-mono text-sm tracking-wide text-accent">&gt; {hero.eyebrow}</p>
+      <h1 class="hero-in mb-7 font-display text-[clamp(2.5rem,6.4vw,5.25rem)] leading-[1.02] font-extrabold tracking-[-0.03em] text-ink text-balance" style="--d: 80ms">
+        {hero.title}
+      </h1>
+      <p class="hero-in mb-10 max-w-[600px] text-[19px] text-soft" style="--d: 200ms">{hero.lead}</p>
+      <div class="hero-in flex flex-wrap gap-3.5" style="--d: 320ms">
+        <a href="#kontakt" class="btn-primary group">{hero.ctaPrimary} <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span></a>
+        <a href="#cennik" class="btn-ghost">{hero.ctaSecondary}</a>
+      </div>
+    </div>
+
+    <div class="hero-in min-w-0 flex-[1_1_340px]" style="--d: 400ms" aria-hidden="true">
+      <div class="overflow-hidden rounded-card border border-[#2a2d34] bg-surface/90 font-mono text-sm leading-[1.8] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)] backdrop-blur-sm">
+        <div class="flex gap-2 border-b border-[#2a2d34] px-[18px] py-3.5">
+          <span class="size-[11px] rounded-full bg-line-strong"></span>
+          <span class="size-[11px] rounded-full bg-line-strong"></span>
+          <span class="size-[11px] rounded-full bg-line-strong"></span>
+        </div>
+        <div class="px-6 py-[22px] text-muted">
+          <div class="term-line" style="--d: 700ms"><span class="text-accent">$</span> npm run build</div>
+          <div class="term-line text-body" style="--d: 1100ms">✓ strona gotowa w 0.8 s</div>
+          <div class="term-line mt-3.5" style="--d: 1500ms"><span class="text-accent">$</span> lighthouse twojafirma.pl</div>
+          <div class="grid max-w-56 grid-cols-[1fr_auto] text-body">
+            {scores.map((s, i) => (
+              <>
+                <span class="term-line" style={`--d: ${1900 + i * 150}ms`}>{s.label}</span>
+                <span class="term-line tabular-nums text-accent" style={`--d: ${1900 + i * 150}ms`} data-count={s.value} data-count-delay={1900 + i * 150}>{s.value}</span>
+              </>
+            ))}
+          </div>
+          <div class="term-line mt-3.5" style="--d: 2700ms"><span class="text-accent">$</span> deploy --prod</div>
+          <div class="term-line text-body" style="--d: 3100ms">→ online. Czas na klientów.<span class="term-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Przewijany pasek technologii -->
+  <div class="marquee relative border-y border-line bg-band/60 py-5 [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
+    <p class="sr-only">Technologie, z którymi pracuję: {stack.join(', ')}.</p>
+    <div class="marquee-track flex w-max gap-12 font-mono text-[15px] text-muted" aria-hidden="true">
+      {[...stack, ...stack].map((t) => (
+        <span class="flex items-center gap-12 whitespace-nowrap">{t}<span class="text-accent">/</span></span>
+      ))}
+    </div>
+  </div>
+</div>

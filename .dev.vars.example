@@ -1,0 +1,2 @@
+# Skopiuj do .dev.vars (nie commituj!) żeby testować wysyłkę formularza lokalnie.
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxx

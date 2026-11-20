@@ -1,0 +1,41 @@
+---
+import { packageId, type HomeContent } from '../data/site';
+interface Props { pricing: HomeContent['pricing'] }
+const { pricing } = Astro.props;
+---
+<section id="cennik" class="border-t border-line bg-band">
+  <div class="mx-auto max-w-page px-6 py-24">
+    <p class="eyebrow" data-reveal>03 / cennik</p>
+    <h2 class="section-title mb-4" data-reveal style="--d: 80ms">{pricing.title}</h2>
+    <p class="mb-14 max-w-[620px] text-muted">{pricing.intro}</p>
+    <ul class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-stretch gap-5">
+      {pricing.packages.map((p, i) => (
+        <li data-reveal style={`--d: ${i * 110}ms`} class:list={[
+          'relative flex flex-col rounded-card-lg p-9 transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1.5',
+          p.featured ? 'hover:shadow-[0_24px_60px_-24px_rgba(198,244,50,0.35)]' : 'hover:border-line-strong',
+          p.featured ? 'border-2 border-accent bg-surface-2' : 'border border-[#2a2d34] bg-surface',
+        ]}>
+          {p.featured && (
+            <span class="absolute -top-3.5 left-9 rounded-full bg-accent px-3 py-1 font-mono text-xs font-medium text-bg">najczęściej wybierany</span>
+          )}
+          <h3 class="mb-1.5 font-display text-2xl font-bold text-ink">{p.name}</h3>
+          <p class="mb-6 text-[15px] text-muted">{p.lead}</p>
+          <p class="mb-7 font-display text-ink">
+            <span class="text-lg text-muted">od </span>
+            <span class="text-5xl font-extrabold tracking-tight">{p.price}</span>
+            <span class="sr-only"> netto</span>
+          </p>
+          <ul class="mb-8 flex grow flex-col gap-3 text-base text-soft">
+            {p.features.map((f) => (
+              <li class="flex gap-2.5"><span class="text-accent" aria-hidden="true">✓</span>{f}</li>
+            ))}
+          </ul>
+          <a href="#kontakt" data-package={packageId(p.name)} class:list={[p.featured ? 'btn-primary' : 'btn-ghost', 'w-full']}>
+            Wybieram<span class="sr-only"> pakiet {p.name}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {pricing.note && <p class="mt-7 text-[15px] text-muted" data-reveal>{pricing.note}</p>}
+  </div>
+</section>

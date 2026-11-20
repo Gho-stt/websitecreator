@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kacper-dev",
+  "compatibility_date": "2026-11-01",
+  "observability": { "enabled": true },
+  // Jawne zmienne (nie-sekretne). Klucz RESEND_API_KEY ustaw jako sekret
+  // w panelu Cloudflare: Workers & Pages → kacper-dev → Settings → Variables and Secrets.
+  "vars": {
+    "CONTACT_TO": "kontakt@twojadomena.pl",
+    "CONTACT_FROM": "Formularz kacper.dev <formularz@twojadomena.pl>"
+  }
+}
