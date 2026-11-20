@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "astro": "astro"
+    "astro": "astro",
+    "skills:install": "node scripts/install-skills.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.4.6",

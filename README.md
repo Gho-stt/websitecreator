@@ -49,4 +49,12 @@ Resend: konto na resend.com, weryfikacja domeny (DNS w Cloudflare), API key z *S
 
 ## Skille dla Claude
 
-`.claude/skills/` – skille do rozwijania strony (źródła i commity: `.claude/skills/SOURCES.md`). Konektor MCP do dodania w ustawieniach Claude: **Astro Docs**, `https://mcp.docs.astro.build/mcp`.
+Skille do rozwijania strony instaluje się do `.claude/skills/` poleceniem:
+
+```bash
+npm run skills:install
+```
+
+Skrypt `scripts/install-skills.mjs` pobiera je z GitHuba w przypiętych, przejrzanych wersjach i dodaje własny skill marki z `claude-skills/marka-klienta`. Folder `.claude/skills` nie jest w repo, żeby skille nie mieszały się z kodem. Lista źródeł po instalacji: `.claude/skills/SOURCES.md`.
+
+Konektor MCP do dodania w ustawieniach Claude: **Astro Docs**, `https://mcp.docs.astro.build/mcp`.
