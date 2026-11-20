@@ -36,6 +36,11 @@ Kolejność usług, kroków, pakietów i pytań ustala pole „Kolejność” (m
 
 Listę „Co zawiera” w pakietach, ikony usług, kolejność i logo zmienia się w panelu (ikona strzałki na pasku otwiera wpis w panelu). Każdy wpis ma historię wersji („Wersje” w panelu bocznym edytora).
 
+### Podgląd strony w panelu
+Własna wtyczka `plugins/podglad` (instalowana jako `@kacper/emdash-podglad`) dodaje:
+- **Strona główna → Podgląd strony**: cała strona w widoku Komputer / Tablet / Telefon, przełącznik **Szkic** (zapisane, nieopublikowane zmiany) / **Opublikowana**. W szkicu można włączyć „Tryb edycji” i poprawiać teksty bezpośrednio w podglądzie.
+- **„Podgląd na stronie”** w bocznym pasku edytora każdego wpisu: widok telefonu przewinięty do edytowanego elementu (podświetlony), odświeżany po każdym zapisie.
+
 ### Jak działa szybkość
 Strony renderują się z bazy D1 i są cache'owane na krawędzi Cloudflare (`routeRules` w `astro.config.mjs`). EmDash czyści cache automatycznie po każdej publikacji, więc zmiany widać w kilka sekund, a odwiedzający dostają gotową stronę z cache.
 

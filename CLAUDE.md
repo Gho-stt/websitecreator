@@ -20,6 +20,7 @@ W `@theme` w `src/styles/global.css`: kolory `bg, band, surface, surface-2, line
 - Strony ustawiają `Astro.cache.set(cacheHint)`; nowa strona = wpis w `routeRules`
 - Edycja wizualna: `{...ed(item.edit, 'pole')}` na elemencie z samym tekstem (string/text). Nie na listach złożonych z wielu elementów.
 - `src/worker.ts`, `src/live.config.ts` – boilerplate EmDash (nie zmieniać)
+- `plugins/podglad` – natywna wtyczka EmDash (zależność `file:`): `src/index.mjs` (deskryptor + `createPlugin`), `src/admin.tsx` (React: `pages['/']` pełny podgląd, `contentEditorPanels` mini-podgląd). Bez Kumo – style inline. Podgląd szkicu = iframe `/?_edit=1` + ciasteczko `emdash-edit-mode`. Mapowanie kolekcja → sekcja w `SECTION`.
 - `src/pages/api/contact.ts` – formularz → Resend, honeypot `website`
 - Nowe pole: kolekcja w `seed/seed.json` (lub panel → Typy treści), mapowanie w `content.ts`, typ w `site.ts`
 
