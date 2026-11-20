@@ -20,10 +20,6 @@ const SOURCES = [
   { repo: 'microsoft/playwright-cli', commit: 'ce9b41b', paths: ['skills/playwright-cli'] },
   { repo: 'astrolicious/agent-skills', commit: 'cb4839f', paths: ['skills/astro'] },
   { repo: 'wshobson/agents', commit: '9c61ab2', paths: ['plugins/frontend-mobile-development/skills/tailwind-design-system'] },
-  {
-    repo: 'cloudflare/skills', commit: '6eb6c78',
-    paths: ['cloudflare', 'wrangler', 'workers-development', 'frameworks-on-cloudflare', 'web-perf', 'turnstile-spin'].map((s) => `skills/${s}`),
-  },
 ];
 
 const root = process.cwd();
